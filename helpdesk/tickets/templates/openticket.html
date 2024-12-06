@@ -1,0 +1,96 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro de Problemas</title>
+  <link rel="stylesheet" href="{% static 'css/openticket.css' %}">
+</head>
+<body> 
+
+    <img id="image-logo" src="{% static 'img/Fenix-Internet-Logo.png' %}" alt="">
+  
+    <div class="form-container">
+      <h2>Registro de Problemas</h2>
+      <form id="problemForm" onsubmit="submitForm(event)">
+        <label for="problem">Descrição do Problema</label>
+        <input type="text" id="problem" name="title" placeholder="Descreva o problema enfrentado">
+  
+        <label for="sector">Setor</label>
+        <select id="sector" name="department">
+          <option value="Comercial">Comercial</option>
+          <option value="Suporte">Suporte</option>
+          <option value="Financeiro">Financeiro</option>
+        </select>
+  
+        <label for="analyst">Analista</label>
+        <select id="analyst" name="name_analyst">
+          <option value="Hassan">Hassan</option>
+          <option value="Arnold">Arnold</option>
+          <option value="João">João</option>
+        </select>
+  
+        <label for="description">Descrição Detalhada</label>
+        <div class="toolbar">
+          <button type="button" onclick="formatText('bold')">Negrito</button>
+          <button type="button" onclick="formatText('italic')">Itálico</button>
+          <button type="button" onclick="formatText('increaseFont')">Aumentar Fonte</button>
+          <button type="button" onclick="formatText('decreaseFont')">Diminuir Fonte</button>
+        </div>
+        <textarea id="description" name="description" class="description" placeholder="Digite aqui a descrição detalhada do problema..."></textarea>
+  
+        <!-- Botões de Cancelar e Criar Novo Ticket -->
+        <div class="buttons">
+          <button type="button" class="cancel-btn" onclick="cancelForm()">Cancelar</button>
+          <button type="submit" class="submit-btn">Criar Novo Ticket</button>
+        </div>
+      </form>
+    </div>
+
+  <script src="{% static 'js/script.js' %}"></script>
+  <script>
+    function submitForm(event) {
+        event.preventDefault(); // Previne o envio padrão do formulário
+
+        const form = document.getElementById('problemForm');
+        const formData = new FormData(form);
+
+        fetch("{% url 'openticket' %}", {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken') // Adicione o token CSRF
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data); // Adicione esta linha para verificar a resposta
+            if (data.status === 'success') {
+                alert('Ticket criado com sucesso! ID do Ticket: ' + data.ticket_id);
+                window.location.href = "/auth/index/";
+            } else {
+                alert('Erro ao criar o ticket.');
+            }
+        })
+        .catch(error => console.error('Erro:', error));
+    }
+
+    // Função para obter o token CSRF
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+  </script>
+</body>
+</html>

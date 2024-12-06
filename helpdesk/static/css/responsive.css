@@ -1,0 +1,371 @@
+@media screen and (max-width: 1360px) {
+    body {
+        /* background-color: #ff5757; */
+    }
+
+    .circle-options {
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        align-items: end;
+        justify-content: center;
+        color: white;
+        margin-left: -90px;
+        margin-bottom: 20px;
+    }
+
+    .name-column h3 {
+        bottom: 55%;
+        left: 430px;
+    }
+
+
+    .name-column h2 {
+        position: absolute;
+        bottom: 20%;
+        right: 3%;
+        font-size: 17px;
+        color: #ffffff;
+        margin-right: 72px;
+    }
+
+
+    .section {
+        width: 50vw; /* 50% da largura da viewport */
+        height: 78vh;
+        display: flex;
+        justify-content: center; /* Centraliza horizontalmente */
+        align-items: center;
+        position: relative;
+        background-color: rgba(48, 45, 45, 0.5);
+        border-radius: 8px;
+        border: 1px solid #ff5757;
+        font-size: 14px;
+        color: #333;
+        margin-right: 3vw;
+        margin-top: 32px;
+    }
+
+    .header {
+      top: 3px; /* Ajusta a posição para telas menores */
+      right: 5px; /* Ajusta a posição para telas menores */
+    }
+
+     .input-area {
+        position: relative;
+        display: flex;
+        gap: 8px;
+        top: 40%;
+    }
+
+    .ticket-container {
+        width: 40%;
+        height: 510px;
+        /* max-width: 600px; */
+        /* Você pode ajustar esse valor para ter um tamanho máximo */
+        margin: 30px;
+        border: 1px solid #dcdcdc;
+        border-radius: 8px;
+        overflow: hidden;
+        background-color: #fff;
+        position: relative;
+        margin-top: 35px;
+        right: 3%;
+        /* Alinha à extrema direita */
+    }
+
+    .messages {
+        height: 320px;
+        bottom: 35%;
+        overflow-y: auto;
+        padding: 10px;
+        position: relative;
+        margin-bottom: -340px;
+        border: 1px solid #dcdcdc;
+        border-radius: 5px;
+    }
+    
+    .navbar {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: rgba(48, 45, 45, 0.5);
+        border: 1px solid #ff4d4d;
+        display: flex;
+        justify-content: center;
+        padding: 10px;
+        border-radius: 8px;
+        width: 450px;
+        height: 40px;
+    }
+
+
+    .navbar button {
+        width: 7.5em;
+        height: 3.3em;
+        background: rgba(0, 0, 0, 0.438);
+        color: white;
+        border: none;
+        border-radius: 0.625em;
+        font-size: 11px;
+        text-align: center;
+        font-weight: bold;
+        cursor: pointer;
+        position: relative;
+        z-index: 1;
+        overflow: hidden;
+       }
+
+}
+
+/* 
+@media screen and (max-width: 1570px) {
+    .messages {
+        height: 400px;
+        bottom: 20%;
+        overflow-y: auto;
+        padding: 10px;
+        position: relative;
+        margin-bottom: -340px;
+        border: 1px solid #dcdcdc;
+        border-radius: 5px;
+    } */
+
+    /* Área de Entrada de Mensagem */
+    /* .input-area {
+        position: relative;
+        display: flex;
+        gap: 8px;
+        top: 68%;
+    } */
+
+/* 
+    .ticket-container {
+        width: 40%;
+        height: 600px;
+        margin: 30px;
+        border: 1px solid #dcdcdc;
+        border-radius: 8px;
+        overflow: hidden;
+        background-color: #fff;
+        position: relative;
+        margin-top: 40px;
+        right: 3%;
+    } */
+
+
+
+
+
+@media screen and (max-width: 1024px) {
+    .ticket-container {
+        width: 60%;
+        height: auto;
+        margin: 20px;
+    }
+
+    .tabs {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 6px;
+    }
+
+    .tab {
+        font-size: 10px;
+        padding: 4px;
+    }
+
+    .content {
+        height: auto;
+        padding: 10px;
+    }
+
+    .messages {
+        padding: 8px;
+        margin-bottom: 20px;
+        height: 200px;
+    }
+
+    .message-text {
+        font-size: 0.9rem;
+    }
+
+    #userInput {
+        font-size: 10px;
+    }
+
+    button {
+        font-size: 10px;
+        padding: 6px 12px;
+    }
+
+    .navbar {
+        bottom: 10px;
+        padding: 8px;
+        font-size: 12px;
+    }
+
+    .navbar button,
+    .new-ticket-btn {
+        padding: 6px 10px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    body {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .ticket-container {
+        width: 90%;
+        margin: 15px;
+    }
+
+    .tabs {
+        gap: 4px;
+        overflow-x: scroll;
+    }
+
+    .tab {
+        font-size: 9px;
+        padding: 3px;
+    }
+
+    .content {
+        padding: 8px;
+    }
+
+    .ticket-info {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .user-photo {
+        width: 30px;
+        height: 30px;
+    }
+
+    .ticket-details p {
+        font-size: 10px;
+    }
+
+    .messages {
+        height: 150px;
+        padding: 6px;
+    }
+
+    #userInput {
+        padding: 6px;
+        font-size: 10px;
+    }
+
+    button {
+        font-size: 10px;
+    }
+
+    .navbar {
+        bottom: 5px;
+        font-size: 10px;
+    }
+
+    .navbar button {
+        padding: 5px;
+        font-size: 10px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .ticket-container {
+        width: 100%;
+        height: auto;
+        margin: 10px;
+    }
+
+    .tabs {
+        font-size: 8px;
+        padding: 2px;
+        gap: 2px;
+    }
+
+    .tab {
+        font-size: 8px;
+        padding: 2px;
+    }
+
+    .content {
+        padding: 5px;
+    }
+
+    .ticket-info {
+        flex-direction: column;
+        padding: 5px;
+    }
+
+    .user-photo {
+        width: 25px;
+        height: 25px;
+    }
+
+    .ticket-details p {
+        font-size: 8px;
+    }
+
+    .messages {
+        height: 100px;
+        padding: 4px;
+    }
+
+    .input-area {
+        gap: 4px;
+    }
+
+    #userInput {
+        padding: 4px;
+        font-size: 8px;
+    }
+
+    button {
+        font-size: 8px;
+        padding: 4px 8px;
+    }
+
+    .navbar {
+        font-size: 8px;
+        padding: 4px;
+    }
+
+    .navbar button {
+        font-size: 8px;
+        padding: 4px 6px;
+    }
+
+    .new-ticket-btn {
+        padding: 4px;
+        font-size: 8px;
+    }
+}
+
+/* Responsividade geral para ajustes de textos e espaçamentos */
+@media screen and (max-width: 320px) {
+    .tab {
+        font-size: 6px;
+    }
+
+    .ticket-info p,
+    .message-text,
+    .sender-name {
+        font-size: 6px;
+    }
+
+    .navbar button {
+        padding: 2px;
+        font-size: 6px;
+    }
+
+    .new-ticket-btn {
+        padding: 2px;
+        font-size: 6px;
+    }
+}

@@ -1,0 +1,544 @@
+/* CSS para o layout do sistema de tickets */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #1414ff;
+    color: #333;
+    display: flex;
+    justify-content: flex-end;
+    margin: 0;
+    --color: #E1E1E1;
+    background-color: #F3F3F3;
+    background-image: linear-gradient(0deg, transparent 24%, var(--color) 25%, var(--color) 26%, transparent 27%,transparent 74%, var(--color) 75%, var(--color) 76%, transparent 77%,transparent),
+        linear-gradient(90deg, transparent 24%, var(--color) 25%, var(--color) 26%, transparent 27%,transparent 74%, var(--color) 75%, var(--color) 76%, transparent 77%,transparent);
+    background-size: 55px 55px;
+    box-sizing: border-box;
+
+}
+
+
+
+.header {
+    position: fixed; /* Fixa o cabeçalho no topo da página */
+    top: 10px; /* Distância de 10px do topo da tela */
+    right: 10px; /* Distância de 10px da extremidade direita da tela */
+    display: flex; /* Usa flexbox para o alinhamento dos itens */
+    align-items: center; /* Alinha verticalmente os itens no centro */
+    justify-content: flex-end; /* Alinha os itens à direita */
+    z-index: 1000; /* Garante que o cabeçalho fique acima de outros elementos */
+  }
+  
+  .user-profile {
+    position: relative; /* Permite que o menu seja posicionado em relação a esse elemento */
+    display: flex; /* Exibe os itens (imagem e nome) em linha */
+    align-items: center; /* Alinha verticalmente a imagem e o nome */
+  }
+  
+  .user-image {
+    width: 30px; /* Define a largura da imagem */
+    height: 30px; /* Define a altura da imagem */
+    border-radius: 50%; /* Torna a imagem um círculo */
+    overflow: hidden; /* Garante que a imagem não ultrapasse o círculo */
+    margin-right: 10px; /* Espaçamento entre a imagem e o nome */
+    cursor: pointer; /* Adiciona um cursor de mão ao passar sobre a imagem */
+  }
+  
+  .user-image img {
+    width: 100%; /* A imagem ocupa toda a área do contêiner */
+    height: 100%; /* A altura da imagem é ajustada à altura do contêiner */
+    object-fit: cover; /* Ajusta a imagem para cobrir o círculo sem distorção */
+  }
+  
+  .user-name {
+    font-size: 12px; /* Define o tamanho da fonte do nome */
+    font-weight: 600; /* Define o peso da fonte para um estilo mais forte */
+    color: #333; /* Define a cor do texto como um tom escuro */
+    cursor: pointer; /* Adiciona um cursor de mão ao passar sobre o nome */
+  }
+  
+  .user-menu {
+    position: absolute; /* Posiciona o menu em relação ao contêiner pai */
+    top: 50px; /* Posiciona o menu 50px abaixo da imagem */
+    right: 0; /* Alinha o menu à direita do contêiner */
+    background-color: #fff; /* Define a cor de fundo do menu */
+    border-radius: 5px; /* Adiciona bordas arredondadas ao menu */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Adiciona uma sombra suave ao redor do menu */
+    display: none; /* Inicialmente o menu está oculto */
+    min-width: 150px; /* Define uma largura mínima para o menu */
+  }
+  
+  .user-menu ul {
+    list-style-type: none; /* Remove os pontos de lista do menu */
+    padding: 10px 0; /* Adiciona padding ao redor dos itens */
+    margin: 0; /* Remove a margem padrão */
+  }
+  
+  .user-menu ul li {
+    padding: 8px 15px; /* Adiciona padding aos itens do menu */
+    cursor: pointer; /* Adiciona um cursor de mão ao passar sobre os itens */
+  }
+  
+  .user-menu ul li:hover {
+    background-color: #f1f1f1; /* Adiciona um fundo mais claro quando o item é hover */
+  }
+  
+  .user-menu ul li a {
+    text-decoration: none; /* Remove o sublinhado dos links */
+    color: #333; /* Define a cor do link */
+    font-size: 14px; /* Define o tamanho da fonte dos links */
+  }
+  
+  .user-menu ul li a:hover {
+    color: #ff0000; /* Altera a cor para azul claro ao passar o mouse sobre o link */
+  }
+  
+  /* Responsividade */
+  @media (max-width: 768px) {
+    .header {
+      top: 5px; /* Ajusta a posição para telas menores */
+      right: 5px; /* Ajusta a posição para telas menores */
+    }
+  
+    .user-name {
+      font-size: 14px; /* Reduz o tamanho da fonte em telas pequenas */
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .header {
+      top: 5px; /* Ajusta a posição para telas ainda menores */
+      right: 5px; /* Ajusta a posição para telas ainda menores */
+    }
+  
+    .user-name {
+      font-size: 12px; /* Reduz ainda mais o tamanho da fonte */
+    }
+  
+    .user-image {
+      width: 35px; /* Ajusta o tamanho da imagem */
+      height: 35px; /* Ajusta o tamanho da imagem */
+    }
+  }
+
+
+/* Estilo para a imagem das mensagens */
+.message-image {
+    max-width: 200px;
+    max-height: 150px;
+    object-fit: contain;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+/* Estilo para o preview da imagem antes do envio */
+.image-preview {
+    max-width: 200px;
+    max-height: 150px;
+    object-fit: contain;
+    border-radius: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+
+/* Container do Ticket */
+.ticket-container {
+    width: 40%;
+    height: 750px;
+    /* max-width: 600px; */ /* Você pode ajustar esse valor para ter um tamanho máximo */
+    margin: 30px;
+    border: 1px solid #dcdcdc;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #fff;
+    position: relative;
+    margin-top: 70px;
+    right: 3%; /* Alinha à extrema direita */
+}
+/* Abas dos tickets */
+.tabs {
+    display: flex;
+    /* overflow-x: auto; */
+    border-bottom: 1px solid #dcdcdc;
+    background-color: #ff5757;
+    gap: 4px;
+    padding: 4px;
+}
+
+/* Botões de navegação do ticket */
+.tab {
+    padding: 5px 8px;
+    cursor: pointer;
+    position: relative;
+    background-color: #ff5757;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    font-size: 12px;
+    border-radius: 4px;
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
+.tab.active {
+    background-color: #ff3d3d;
+}
+
+.tab .close-btn {
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    cursor: pointer;
+    color: white;
+    font-size: 10px;
+}
+
+/* Conteúdo do ticket */
+.content {
+    background-color: white;
+    padding: 15px;
+    height: 320px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Seção Informativa do Ticket */
+.ticket-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 8px;
+    border: 1px solid #dcdcdc;
+    border-radius: 5px;
+    background-color: #ffe5e5;
+}
+
+.user-photo {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.ticket-details p {
+    margin: 2px 0;
+    font-size: 12px;
+    color: #333;
+}
+
+/* Área de Mensagens */
+.messages {
+    height: 680px;
+    padding: 10px;
+    overflow-y: auto;
+    position: relative;
+    margin-bottom: -340px;
+    border: 1px solid #dcdcdc;
+    border-radius: 5px;
+}
+
+/* Estilos para as mensagens */
+.message {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    max-width: 80%;
+}
+
+/* Nome do remetente */
+.sender-name {
+    font-weight: bold;
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+}
+
+/* Texto da mensagem */
+.message-text {
+    font-size: 1rem;
+}
+
+/* Estilos específicos para o usuário */
+.message.user {
+    background-color: #fcabab; /* Cor de fundo para a mensagem do usuário */
+    align-self: flex-start;
+}
+
+/* Estilos específicos para o administrador */
+.message.admin {
+    background-color: #f8d7da; /* Cor de fundo para a mensagem do administrador */
+    align-self: flex-end;
+}
+
+
+/* Área de Entrada de Mensagem */
+.input-area {
+    position: relative;
+    display: flex;
+    gap: 8px;
+    top: 110%;
+}
+
+#userInput {
+    flex-grow: 1;
+    padding: 8px;
+    border: 1px solid #dcdcdc;
+    border-radius: 5px;
+    font-size: 12px;
+}
+
+button {
+    padding: 8px 15px;
+    background-color: #ff3d3d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+button:hover {
+    background-color: #ff5757;
+}
+
+/* Navbar inferior centralizada e compacta */
+.navbar {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(48, 45, 45, 0.5);
+    border: 1px solid #ff4d4d;
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    border-radius: 8px;
+    width: auto;
+}
+
+/* Botões dentro da navbar */
+
+
+.navbar button {
+    width: 7.5em;
+    height: 3.3em;
+    margin: 0.5em;
+    background: rgba(0, 0, 0, 0.438);
+    color: white;
+    border: none;
+    border-radius: 0.625em;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+   }
+   
+   .navbar button:hover {
+    color: rgb(255, 255, 255);
+   }
+   
+   .navbar button:after {
+    content: "";
+    background: #ff4d4d;
+    position: absolute;
+    z-index: -1;
+    left: -20%;
+    right: -20%;
+    top: 0;
+    bottom: 0;
+    transform: skewX(-45deg) scale(0, 1);
+    transition: all 0.5s;
+   }
+   
+   .navbar button:hover:after {
+    transform: skewX(-45deg) scale(1, 1);
+    -webkit-transition: all 0.5s;
+    transition: all 0.5s;
+   }
+
+.new-ticket-btn {
+    background-color: #ffffff;
+    color: #ff3d3d;
+    font-weight: bold;
+    border: 1px solid #ff3d3d;
+    padding: 8px 16px;
+}
+
+
+
+.new-ticket-btn:hover {
+    background-color: #ffcccc;
+    color: #ff3d3d;
+    border-color: #ff3d3d;
+}
+
+
+/* Seções da Left Container */
+.section {
+    width: 50vw; /* 50% da largura da viewport */
+    height: 79vh;
+    display: flex;
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center;
+    position: relative;
+    background-color: rgba(48, 45, 45, 0.5);
+    border-radius: 8px;
+    border: 1px solid #ff5757;
+    font-size: 14px;
+    color: #333;
+    margin-right: 5vw;
+    margin-top: 72px;
+}
+
+.section h2 {
+    font-size: 18px;
+    color: #ffffff;
+    margin-bottom: 10px;
+    text-align: center; /* Centraliza o texto dentro do h2 */
+}
+
+/* tickets em andamento */
+
+
+/* Nome e Status do analista */
+.name-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 5px;
+}
+
+
+    /* Cores dos status */
+    .status-vermelho {
+        background-color: red;
+        border: 1px solid #ccc;
+    }
+
+    .status-verde {
+        background-color: rgb(0, 255, 0);
+        border: 1px solid #ccc;
+    }
+
+    .status-branco {
+        background-color: white;
+        border: 1px solid #ccc;
+    }
+
+.name-column h3 {
+    position: absolute;
+    bottom: 53%;
+    font-size: 17px;
+    color: #ffffff;
+    margin-right: 70px;
+}
+
+
+.name-column h2 {
+    position: absolute;
+    bottom: 15%;
+    right: 3%;
+    font-size: 17px;
+    color: #ffffff;
+    margin-right: 70px;
+}
+
+/* Layout responsivo */
+@media (max-width: 768px) {
+    .container-options-box {
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: left;
+        gap: 10px;
+    }
+
+    .circle-options {
+        align-items: flex-start;
+    }
+
+    .name-column {
+        align-items: flex-start;
+    }
+}
+
+.container-options-box {
+    display: flex;
+    flex-direction: row; /* Alinha os itens em uma linha */
+    justify-content: space-between; /* Distribui os itens com espaço entre eles */
+    align-items: center; /* Centraliza os itens verticalmente */
+    margin: 10px;
+    color: white;
+    padding: 10px;
+    max-width: 90%;
+    background-color: #221f1f;
+    border-radius: 10px;
+    opacity: 70%;
+    position: relative;
+}
+
+.circle-foto {
+    width: 40px;
+    height: 40px;
+    background-color: rgb(255, 2, 192);
+    border-radius: 50%;
+    margin-right: 10px; /* Adiciona espaço à direita do círculo */
+    align-self: center; /* Centraliza o círculo verticalmente */
+}
+
+.container-options-box h4 {
+    font-size: 14px;
+    margin-right: 10px; /* Adiciona espaço à direita do título */
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.container-options-box i {
+    font-family: Arial, Helvetica, sans-serif;
+    font-style: normal;
+    margin-right: 10px; /* Adiciona espaço à direita do texto */
+}
+
+.status-container {
+    display: flex;
+    flex-direction: column; /* Alinha os itens em uma coluna */
+    align-items: flex-start; /* Alinha os itens à esquerda */
+    margin-left: auto; /* Empurra a status-container para a direita */
+}
+
+.status-container .status,
+.status-container .admin-name,
+.status-container .name-analista {
+    color: white;
+    font-size: 14px;
+    margin-bottom: 5px; /* Adiciona espaço abaix o de cada item */
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.container-options-box:hover {
+    opacity: 100%;
+    background-color: #ffffff75;
+    color: #ff3d3d;
+}
+
+.circle-options {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    justify-content: center;
+    color: white;
+    margin-left: auto;
+    margin-bottom: 20px;
+}
+
+.circle-status {
+     width: 40px; /* caso voce que esta vendo o codigo tenha uma solução melhor, nos contate */
+    height: 40px;
+    border-radius: 50%;
+    margin-left: 420px;
+}
+

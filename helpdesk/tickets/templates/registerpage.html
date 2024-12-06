@@ -1,0 +1,40 @@
+{% load static %}
+
+
+
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Registration or Sign Up form in HTML CSS | CodingLab </title> 
+    <link rel="stylesheet" href="{% static 'css/styleregister.css' %}">
+   </head>
+<body>
+    <img id="image-logo" src="{% static 'img/Fenix-Internet-Logo.png'  %}" alt="">
+  <div class="wrapper">
+    <h2>Registre-se</h2>
+    <form action="{% url 'registerpage' %}" method="POST">{% csrf_token %}
+      <div class="input-box">
+        <input type="text" placeholder="Nome completo" name="nome" required>
+      </div>
+      <div class="input-box">
+        <input type="text" placeholder="Seu email @fenixfibra.com.br" name="email" required>
+      </div>
+      <div class="input-box">
+        <input type="password" placeholder="Crie sua senha" name="senha" required>
+      </div>
+      <div class="input-box">
+        <input type="password" placeholder="Confirme a senha"  name="check_senha" required>
+      </div>
+      <div class="input-box button">
+        <input type="Submit" value="Register Now">
+      </div>
+      <div class="text">
+        <h3>Caso já tenha uma conta.<a href="{% url 'login' %}"> Logue agora</a></h3>
+      </div>
+    </form>
+  </div>
+</body>
+</html>>
