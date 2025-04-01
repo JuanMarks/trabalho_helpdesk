@@ -1,96 +1,125 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="pt-br">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Registro de Problemas</title>
-  <link rel="stylesheet" href="{% static 'css/openticket.css' %}">
-</head>
-<body> 
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registro de Problemas</title>
+    <link rel="stylesheet" href="{% static 'css/openticket.css' %}" />
+    <link rel="icon" href="https://fenixinternet-rs.com.br/wp-content/uploads/2024/09/Logo-Fenix-Internet-1-1.svg" type="image/x-icon" sizes="32x32">
+  </head>
+  <body>
+    
 
-    <img id="image-logo" src="{% static 'img/Fenix-Internet-Logo.png' %}" alt="">
-  
     <div class="form-container">
+      <div class='image-container'>
+        
       <h2>Registro de Problemas</h2>
+      <img
+      class="image-logo"
+      src="{% static 'img/Fenix-Internet-Logo.png' %}"
+      alt=""
+      />
+      </div>
+      
       <form id="problemForm" onsubmit="submitForm(event)">
         <label for="problem">Descrição do Problema</label>
-        <input type="text" id="problem" name="title" placeholder="Descreva o problema enfrentado">
-  
+        <input
+          type="text"
+          id="problem"
+          name="title"
+          placeholder="Descreva o problema enfrentado"
+        />
+
         <label for="sector">Setor</label>
         <select id="sector" name="department">
           <option value="Comercial">Comercial</option>
           <option value="Suporte">Suporte</option>
           <option value="Financeiro">Financeiro</option>
         </select>
-  
+
         <label for="analyst">Analista</label>
         <select id="analyst" name="name_analyst">
-          <option value="Hassan">Hassan</option>
-          <option value="Arnold">Arnold</option>
-          <option value="João">João</option>
+          <option value="">Selecione um analista...</option>
+          {% for analyst in analysts %}
+          <option value="{{ analyst.id }}">{{ analyst.username }}</option>
+          {% endfor %}
         </select>
-  
+
         <label for="description">Descrição Detalhada</label>
         <div class="toolbar">
           <button type="button" onclick="formatText('bold')">Negrito</button>
           <button type="button" onclick="formatText('italic')">Itálico</button>
-          <button type="button" onclick="formatText('increaseFont')">Aumentar Fonte</button>
-          <button type="button" onclick="formatText('decreaseFont')">Diminuir Fonte</button>
+          <button type="button" onclick="formatText('increaseFont')">
+            Aumentar Fonte
+          </button>
+          <button type="button" onclick="formatText('decreaseFont')">
+            Diminuir Fonte
+          </button>
         </div>
-        <textarea id="description" name="description" class="description" placeholder="Digite aqui a descrição detalhada do problema..."></textarea>
-  
+        <textarea
+          id="description"
+          name="description"
+          class="description"
+          maxlength="300"
+          oninput="updateCharCount()"
+          placeholder="Digite aqui a descrição detalhada do problema..."
+        ></textarea>
+
         <!-- Botões de Cancelar e Criar Novo Ticket -->
         <div class="buttons">
-          <button type="button" class="cancel-btn" onclick="cancelForm()">Cancelar</button>
+          <button type="button" class="cancel-btn" onclick="cancelForm()">
+            Cancelar
+          </button>
           <button type="submit" class="submit-btn">Criar Novo Ticket</button>
         </div>
       </form>
     </div>
 
-  <script src="{% static 'js/script.js' %}"></script>
-  <script>
-    function submitForm(event) {
+    <script src="{% static 'js/script.js' %}"></script>
+    <script>
+      function submitForm(event) {
         event.preventDefault(); // Previne o envio padrão do formulário
 
-        const form = document.getElementById('problemForm');
+        const form = document.getElementById("problemForm");
         const formData = new FormData(form);
 
         fetch("{% url 'openticket' %}", {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'X-CSRFToken': getCookie('csrftoken') // Adicione o token CSRF
-            }
+          method: "POST",
+          body: formData,
+          headers: {
+            "X-CSRFToken": getCookie("csrftoken"), // Adicione o token CSRF
+          },
         })
-        .then(response => response.json())
-        .then(data => {
+          .then((response) => response.json())
+          .then((data) => {
             console.log(data); // Adicione esta linha para verificar a resposta
-            if (data.status === 'success') {
-                alert('Ticket criado com sucesso! ID do Ticket: ' + data.ticket_id);
-                window.location.href = "/auth/index/";
+            if (data.status === "success") {
+              window.location.href = "/";
             } else {
-                alert('Erro ao criar o ticket.');
+              alert("Erro ao criar o ticket.");
             }
-        })
-        .catch(error => console.error('Erro:', error));
-    }
+          })
+          .catch((error) => console.error("Erro:", error));
+      }
 
-    // Função para obter o token CSRF
-    function getCookie(name) {
+      // Função para obter o token CSRF
+      function getCookie(name) {
         let cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
-                const cookie = cookies[i].trim();
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
+        if (document.cookie && document.cookie !== "") {
+          const cookies = document.cookie.split(";");
+          for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === name + "=") {
+              cookieValue = decodeURIComponent(
+                cookie.substring(name.length + 1)
+              );
+              break;
             }
+          }
         }
         return cookieValue;
-    }
-  </script>
-</body>
+      }
+    </script>
+  </body>
 </html>

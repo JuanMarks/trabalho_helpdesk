@@ -1,0 +1,46 @@
+.modal-personalizado {
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  font-weight: 600;
+  text-align: center;
+  color: #000;
+  background-color: #ccc;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+}
+.info-ticket {
+  display: flex;
+  justify-content: space-around;
+}
+
+.conf-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.conf-info p {
+  font-size: 1rem;
+  line-height: 1.5rem;
+  font-weight: 400;
+  color: #000;
+  text-transform: capitalize;
+  background-color: #ccc;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+}
+
+.description p {
+  font-size: 1rem;
+  line-height: 1.5rem;
+  font-weight: 400;
+  color: #000;
+  text-transform:lowercase;
+  background-color: #ccc;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+}

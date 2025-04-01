@@ -1,35 +1,42 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="https://fenixinternet-rs.com.br/wp-content/uploads/2024/09/Logo-Fenix-Internet-1-1.svg" type="image/x-icon" sizes="32x32">
     <title>Lista de Tickets</title>
-</head>
-<body>
+  </head>
+  <body>
     <h1>Lista de Tickets</h1>
+    {%if tickets %}
     <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Problema</th>
-                <th>Setor</th>
-                <th>Analista</th>
-                <th>Descrição</th>
-                <th>Data de Criação</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for ticket in tickets %}
-            <tr>
-                <td>{{ ticket.id }}</td>
-                <td>{{ ticket.problem }}</td>
-                <td>{{ ticket.sector }}</td>
-                <td>{{ ticket.analyst }}</td>
-                <td>{{ ticket.description }}</td>
-                <td>{{ ticket.created_at }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Problema</th>
+          <th>Setor</th>
+          <th>Analista</th>
+          <th>Descrição</th>
+          <th>Data de Criação</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        {% for ticket in tickets %}
+        <tr>
+          <td>{{ ticket.id }}</td>
+          <td>{{ ticket.problem }}</td>
+          <td>{{ ticket.sector }}</td>
+          <strong>Eu estou aqui</strong>
+          <td>{{ ticket.analyst }}</td>
+          <td>{{ ticket.description }}</td>
+          <td>{{ ticket.created_at }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
     </table>
-</body>
+    {% else %}
+      <h2>Nao tem nenhum ticket ainda</h2>
+    {% endif %}
+  </body>
 </html>

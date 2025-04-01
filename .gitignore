@@ -2,3 +2,6 @@
 venv/
 lib/
 pyvenv.cfg
+core/
+helpdesk/tickets/migrations/
+helpdesk/email_notifications/migrations/

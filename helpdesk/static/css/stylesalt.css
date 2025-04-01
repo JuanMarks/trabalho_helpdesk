@@ -1,0 +1,811 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #1414ff;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    --color: #E1E1E1;
+    background-color: #F3F3F3;
+    background-size: 55px 55px;
+}
+
+.image-logo{
+    position: absolute;
+    height: 10vh;
+    right: 47.5%;
+}
+
+.navbar-filtros {
+    position: fixed;
+    z-index: 0;
+    bottom: 3%;
+    text-align: center;
+    left: 50%;
+    transform: translateX(-50%);
+    /* background: rgba(193, 187, 187,0.3); */
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    border-radius: 8px;
+    width: 55vw;
+}
+
+.label-form{
+    label{
+        color: white;
+        visibility: hidden;
+        position: absolute;
+    }
+}
+
+/* Botões dentro da navbar */
+
+.header {
+    position: fixed; /* Fixa o cabeçalho no topo da página */
+    top: 10px; /* Distância de 10px do topo da tela */
+    right: 10%; /* Distância de 10px da extremidade direita da tela */
+    display: flex; /* Usa flexbox para o alinhamento dos itens */
+    align-items: center; /* Alinha verticalmente os itens no centro */
+    justify-content: flex-end; /* Alinha os itens à direita */
+    z-index: 1; /* Garante que o cabeçalho fique acima de outros elementos */
+  }
+  
+  .user-profile {
+    position: relative; /* Permite que o menu seja posicionado em relação a esse elemento */
+    display: flex; /* Exibe os itens (imagem e nome) em linha */
+    align-items: center; /* Alinha verticalmente a imagem e o nome */
+    gap: 10px;
+    margin-top: 1em;
+  }
+
+.user-name-container {
+    display: flex;
+    flex-direction: column; /* Organiza os textos na vertical */
+    line-height: 1; /* Ajusta o espaçamento entre linhas */
+}
+  
+  .user-image {
+    width: 40px; /* Define a largura da imagem */
+    height: 40px; /* Define a altura da imagem */
+    border-radius: 50%; /* Torna a imagem um círculo */
+    overflow: hidden; /* Garante que a imagem não ultrapasse o círculo */
+    margin-right: 5px; /* Espaçamento entre a imagem e o nome */
+    cursor: pointer; /* Adiciona um cursor de mão ao passar sobre a imagem */
+  }
+  
+  .user-image img {
+    width: 100%; /* A imagem ocupa toda a área do contêiner */
+    height: 100%; /* A altura da imagem é ajustada à altura do contêiner */
+    object-fit: cover; /* Ajusta a imagem para cobrir o círculo sem distorção */
+  }
+
+  .analista-name{
+    font-size: 14px;
+    font-weight: bold; /* Destaca o texto */
+    margin-bottom: 2px; /* Controla o espaço entre "Analista" e o username */
+    margin-left: auto;
+  }
+  
+  .user-name {
+    font-size: 15px; /* Define o tamanho da fonte do nome */
+    font-weight: 500; /* Define o peso da fonte para um estilo mais forte */
+    color: #333; /* Define a cor do texto como um tom escuro */
+    cursor: pointer; /* Adiciona um cursor de mão ao passar sobre o nome */
+  }
+  
+  .user-menu {
+    position: absolute; /* Posiciona o menu em relação ao contêiner pai */
+    top: 50px; /* Posiciona o menu 50px abaixo da imagem */
+    right: 0; /* Alinha o menu à direita do contêiner */
+    background-color: #fff; /* Define a cor de fundo do menu */
+    border-radius: 5px; /* Adiciona bordas arredondadas ao menu */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Adiciona uma sombra suave ao redor do menu */
+    display: none; /* Inicialmente o menu está oculto */
+    min-width: 150px; /* Define uma largura mínima para o menu */
+  }
+  
+  .user-menu ul {
+    list-style-type: none; /* Remove os pontos de lista do menu */
+    padding: 10px 0; /* Adiciona padding ao redor dos itens */
+    margin: 0; /* Remove a margem padrão */
+  }
+  
+  .user-menu ul li {
+    padding: 8px 15px; /* Adiciona padding aos itens do menu */
+    cursor: pointer; /* Adiciona um cursor de mão ao passar sobre os itens */
+  }
+  
+  .user-menu ul li:hover {
+    background-color: #f1f1f1; /* Adiciona um fundo mais claro quando o item é hover */
+  }
+  
+  .user-menu ul li a {
+    text-decoration: none; /* Remove o sublinhado dos links */
+    color: #333; /* Define a cor do link */
+    font-size: 14px; /* Define o tamanho da fonte dos links */
+  }
+  
+  .user-menu ul li a:hover {
+    color: #ff0000; /* Altera a cor para azul claro ao passar o mouse sobre o link */
+  }
+
+  .modal-backdrop {
+    z-index: 1040 !important;
+}
+
+.modal {
+    z-index: 1050 !important;
+}
+
+
+.navbar-filtros button {
+    width: 8em;
+    height: 3.3em;
+    margin: 0.5em;
+    background: rgba(0, 0, 0, 0.438);
+    color: black;
+    border: none;
+    border-radius: 0.625em;
+    font-size: 14px;
+    cursor: pointer;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    text-align: center;
+   }
+   
+   .navbar-filtros button:hover {
+    color: rgb(255, 255, 255);
+   }
+   
+   .navbar-filtros button:after {
+    content: "";
+    background: #ff4d4d;
+    position: absolute;
+    z-index: -1;
+    left: -20%;
+    right: -20%;
+    top: 0;
+    bottom: 0;
+    transform: skewX(-45deg) scale(0, 1);
+    transition: all 0.5s;
+   }
+   
+   .navbar-filtros button:hover:after {
+    transform: skewX(-45deg) scale(1, 1);
+    -webkit-transition: all 0.5s;
+    transition: all 0.5s;
+   }
+
+/* .new-ticket-btn {
+    background-color: #050000;
+    color: #ff3d3d;
+    font-weight: bold;
+    border: 1px solid #ff3d3d;
+   padding-bottom: 3px;
+   
+} */
+
+/* Seções da Left Container */
+
+.left-container{
+    transition: width 0.3s ease, margin-left 0.3s ease;
+    width: 49%;
+    margin-right: 50%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 0;
+}
+.section {
+    margin-top: 11%;
+    width: 85vw; /* 50% da largura da viewport */
+    height: 75vh;
+    overflow-y: scroll;
+    display: flex;
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center;
+    position: relative;
+    background: rgba(193, 187, 187,0.3);
+    border-radius: 8px;
+    font-size: 14px;
+    color: #333;
+    z-index: 0;
+    
+}
+
+.section::-webkit-scrollbar{
+    display: none;
+}
+
+.section h2 {
+    padding: 7px;
+    font-size: 18px;
+    position: sticky;
+    color: #000000;
+    margin-bottom: 10px;
+    text-align: center; /* Centraliza o texto dentro do h2 */
+}
+
+.button-chat{
+    margin-right: 10%;
+}
+
+.button_div{
+    display: flex;
+    button{
+        margin-right: 5px;
+    }
+}
+
+
+/* Nome e Status do analista */
+.name-column {
+    flex: 1;
+    display: flex;
+    margin-left: 17%;
+    margin-top: 1%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.button_atender {
+    background-color: #28a745 !important; /* Verde do Bootstrap */
+    color: white; /* Cor do texto */
+    border: none; /* Remove borda */
+    padding: 10px 20px; /* Adiciona espaçamento */
+    font-size: 16px; /* Tamanho da fonte */
+    border-radius: 5px; /* Bordas arredondadas */
+    cursor: pointer; /* Aponta cursor como clicável */
+    transition: background-color 0.3s ease; /* Animação suave */
+}
+
+.button_atender:hover {
+    background-color: #218838; /* Cor verde mais escura no hover */
+}
+
+/* Estilo para o botão "FECHAR" */
+.button_fechar {
+    background-color: #dc3545 !important; /* Vermelho do Bootstrap */ 
+    color: white; /* Cor do texto */
+    border: none; /* Remove borda */
+    padding: 10px 20px; /* Adiciona espaçamento */
+    font-size: 16px; /* Tamanho da fonte */
+    border-radius: 5px; /* Bordas arredondadas */
+    cursor: pointer; /* Aponta cursor como clicável */
+    transition: background-color 0.3s ease; /* Animação suave */
+}
+
+.button_acessar:hover {
+    background-color: #ebe706d2; /* Cor vermelha mais escura no hover */
+}
+
+.button_acessar {
+    background-color: #ebe706 !important; /* Vermelho do Bootstrap */ 
+    color: white; /* Cor do texto */
+    border: none; /* Remove borda */
+    padding: 10px 20px; /* Adiciona espaçamento */
+    font-size: 16px; /* Tamanho da fonte */
+    border-radius: 5px; /* Bordas arredondadas */
+    cursor: pointer; /* Aponta cursor como clicável */
+    transition: background-color 0.3s ease; /* Animação suave */
+}
+
+.button_fechar:hover {
+    background-color: #c82333; /* Cor vermelha mais escura no hover */
+}
+
+
+    /* Cores dos status */
+    .status-vermelho {
+        background-color: red;
+        border: 2px solid  red;
+    }
+
+    .status-verde {
+        
+        border: 2px solid rgba(0, 255, 0, 0.507);
+        background-color: rgba(0, 255, 0, 0.507);;
+    }
+
+    .status-branco {
+        border: 2px solid #747070;
+        background-color:  #747070;;
+    }
+
+.name-column h3 {
+    font-size: 17px;
+    color: #000000;
+}
+
+
+.name-column h2 {
+    font-size: 17px;
+    color: #000000;
+}
+
+.container-options-box {
+    display: flex;
+    flex-direction: row; /* Alinha os itens em uma linha */
+    justify-content: space-between; /* Distribui os itens com espaço entre eles */
+    align-items: center; /* Centraliza os itens verticalmente */
+    margin: 10px;
+    margin-left: 4%;
+    color: rgb(7, 6, 6);
+    padding: 10px;
+    max-width: 90%;
+    background: rgba(193, 187, 187,0.3);
+    border-radius: 10px;
+    position: relative;
+}
+
+.circle-foto {
+    img{
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        margin-right: 10px; /* Adiciona espaço à direita do círculo */
+        align-self: center; /* Centraliza o círculo verticalmente */
+    }
+}
+
+.container-options-box h4 {
+    font-size: 14px;
+    margin-right: 10px; /* Adiciona espaço à direita do título */
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.container-options-box i {
+    font-family: Arial, Helvetica, sans-serif;
+    font-style: normal;
+    margin-right: 10px; /* Adiciona espaço à direita do texto */
+    font-size: 16px;
+}
+
+.status-container {
+    display: flex;
+    flex-direction: column; /* Alinha os itens em uma coluna */
+    align-items: flex-start; /* Alinha os itens à esquerda */
+    margin-left: auto; /* Empurra a status-container para a direita */
+}
+
+.status-container .status,
+.status-container .admin-name,
+.status-container .name-analista {
+    color: white;
+    font-size: 14px;
+    margin-bottom: 5px; /* Adiciona espaço abaix o de cada item */
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+
+
+.circle-options {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    justify-content: center;
+    color: rgb(0, 0, 0);
+    margin-left: auto;
+    margin-bottom: 7px;
+    h3{
+        font-size: 12px !important; 
+    }
+}
+
+.circle-status {
+    width: 40px; /* caso voce que esta vendo o codigo tenha uma solução melhor, nos contate */
+    height: 40px;
+    border-radius: 50%;
+    margin-left: 350px;
+}
+
+/* Estilo para a imagem das mensagens */
+.message-image {
+    max-width: 200px;
+    max-height: 150px;
+    object-fit: contain;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+/* Estilo para o preview da imagem antes do envio */
+.image-preview {
+    max-width: 200px;
+    max-height: 150px;
+    object-fit: contain;
+    border-radius: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.tickets-chat-container {
+    display: flex;
+    margin-left: 10%;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.left-container.reduced {
+    width: 49%;
+    margin-right: 50%;
+     /* Ajuste o margin-top aqui */
+}
+
+.section.reduced {
+    margin-top: 11%;
+}
+
+.ticket-container.expanded{
+    width: 49%;
+    display: block;
+}
+
+/* Container do bate-papo */
+.ticket-container {
+    position: absolute;
+    display: block;
+    z-index: 0;
+    right: 1%;
+    width: 49%;
+    transition: width 0.3s ease;
+    /* max-width: 600px; */ /* Você pode ajustar esse valor para ter um tamanho máximo */
+    border: 1px solid #dcdcdc;
+    background-color: rgba(172, 11, 11, 0.5);
+    border-radius: 8px;
+    overflow: hidden;
+    background: rgba(193, 187, 187,0.3);
+    height: 75vh;
+    margin-top: 5.4%;
+    margin-left: 2%;
+}
+/* Abas dos tickets */
+.tabs {
+    display: flex;
+    /* overflow-x: auto; */
+    border-bottom: 1px solid #dcdcdc;
+    background-color: #ff5757;
+    gap: 4px;
+    padding: 4px;
+}
+
+/* Botões de navegação do ticket */
+.tab {
+    padding: 5px 8px;
+    cursor: pointer;
+    position: relative;
+    background-color: #ff5757;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    font-size: 12px;
+    border-radius: 4px;
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
+.tab.active {
+    background-color: #ff3d3d;
+}
+
+.tab .close-btn {
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    cursor: pointer;
+    color: white;
+    font-size: 10px;
+}
+
+/* Conteúdo do ticket */
+.content {
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.chat-wrapper{
+    height: 62vh;  
+    border-radius: 8px;  
+    width: 45vw;
+}
+
+/* Seção Informativa do Ticket */
+.ticket-info {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    border: 1px solid #dcdcdc;
+    border-radius: 5px;
+    background-color: #ffe5e5;
+}
+
+.user-photo {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.ticket-details p {
+    margin: 2px 0;
+    font-size: 12px;
+    color: #333;
+}
+
+/* Área de Mensagens */
+.messages {
+    height: 370px;
+    padding: 10px;
+    overflow-y: auto;
+    position: relative;
+    margin-bottom: -340px;
+    border: 1px solid #dcdcdc;
+    border-radius: 5px;
+}
+
+/* Estilos para as mensagens */
+.message {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    max-width: 80%;
+}
+
+/* Nome do remetente */
+.sender-name {
+    font-weight: bold;
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+}
+
+/* Texto da mensagem */
+.message-text {
+    font-size: 1rem;
+}
+
+/* Estilos específicos para o usuário */
+.message.user {
+    background-color: #fcabab; /* Cor de fundo para a mensagem do usuário */
+    align-self: flex-start;
+}
+
+/* Estilos específicos para o administrador */
+.message.admin {
+    background-color: #f8d7da; /* Cor de fundo para a mensagem do administrador */
+    align-self: flex-end;
+}
+
+
+/* Área de Entrada de Mensagem */
+.input-area {
+    position: relative;
+    display: flex;
+    gap: 8px;
+    top: 110%;
+}
+
+#userInput {
+    flex-grow: 1;
+    padding: 8px;
+    border: 1px solid #dcdcdc;
+    border-radius: 5px;
+    font-size: 12px;
+}
+
+button {
+    padding: 8px 15px;
+    background-color: #ff3d3d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+button:hover {
+    background-color: #ff5757;
+}
+
+/* Botão de fechar no bate-papo */
+
+
+/* Estilização do Modal */
+.modal {
+    display: none; /* Escondido por padrão */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 300px;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.button_salvar {
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.button_salvar:hover {
+    background-color: #45a049;
+}
+
+@media (max-width: 1879px){
+    .chat-wrapper{
+        height: 62vh;  
+        border-radius: 8px;  
+        width: 45vw;
+    }
+}
+
+@media (max-width: 1750px) {
+    .chat-wrapper{
+        height: 62vh;  
+        border-radius: 8px;  
+        width: 45vw;
+    }
+    .navbar-filtros{
+        width: 75vw;
+    }
+
+    .section{
+        width: 90vw; /* 50% da largura da viewport */
+        height: 73vh;
+    }
+
+    .container-options-box{
+        max-height: 90px;
+    }
+
+    .content{
+        height: 220px;
+    }
+
+    .button-chat{
+        margin-right: 1%;
+    }
+
+    .ticket-container{
+        height: 73vh;
+    }
+
+
+    
+
+    
+}
+
+@media (max-width: 1550px) {
+    .chat-wrapper{
+        height: 25rem;  
+        border-radius: 8px;  
+        width: 42rem;
+    }
+    .navbar-filtros{
+        width: 75vw;
+    }
+
+    .section{
+        width: 90vw; /* 50% da largura da viewport */
+        height: 73vh;
+    }
+
+    .circle-options{
+        margin-left: -9%;
+    }
+
+    .button-chat{
+        margin-right: 1%;
+    }
+
+    .container-options-box{
+        max-height: 90px;
+    }
+
+    .content{
+        height: 220px;
+    }
+
+    .ticket-container{
+        height: 73vh;
+    }
+
+    
+
+    
+}
+
+@media (max-width: 1400px) {
+    .chat-wrapper{
+        height: 22.5rem;  
+        border-radius: 8px;  
+        width: 38rem;
+        form{
+            input{
+                width: 360px !important; 
+            }
+        }
+    }
+
+    .circle-options{
+        margin-left: -15%;
+    }
+
+    .name-column{
+        margin-top: 4%;
+    }
+}
+
+@media (max-width: 1300px) {
+    .chat-wrapper{
+        height: 23rem;  
+        border-radius: 8px;  
+        width: 38rem;
+        form{
+            input{
+                width: 360px !important; 
+            }
+        }
+    }
+
+    .circle-options{
+        margin-left: -15%;
+    }
+
+    .name-column{
+        margin-top: 4%;
+    }
+}
+
+@media (min-width: 1900px) {
+    .chat-wrapper{
+        height: 62vh;  
+        border-radius: 8px;  
+        width: 45vw;
+        form{
+            input{
+                width: 650px !important; 
+            }
+        }
+    }
+}
+

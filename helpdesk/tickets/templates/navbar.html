@@ -1,0 +1,66 @@
+{% load static %}
+<link rel="stylesheet"  href="{% static 'css/navbar.css' %}">
+
+<nav class="navbar navbar-expand-lg font-nav navbar-light navbar-all">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#"><img src="{% static 'img/Fenix-Internet-Logo.png' %}" alt="Logo" style="width: 50px; height: auto;"></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse espaco-direita" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 div-navbar-button">
+          <li class="nav-item">
+            <a class="nav-link active link" aria-current="page" href="/">Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link link" href="/faq_list">Perguntas frequentes</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link link" href="/reports">Relatório</a>
+          </li>
+        </ul>
+        <div class="header">
+            <div class="user-profile" onclick="toggleMenu()">
+                <div class="user-image" >
+                  {% if user.profile.profile_picture %}
+                  <img src="{{ user.profile.profile_picture.url }}" alt="Imagem do colaborador">
+                  {% else %}
+                  <img src="{% static 'img/placeholder-image.jpg' %}" alt="Imagem do colaborador">
+                  {% endif %}
+                </div>
+                <div class="user-name-container">
+                    <span class="analista-name">Analista</span>
+                    <span class="user-name"  id="userName">{{ user.get_username }}</span>
+                </div>
+                <div class="user-menu" id="userMenu">
+                    <ul>
+                    <a style="text-decoration: none;" href="/edit_profile"><li>Configurações</li></a>
+                    <a style="text-decoration: none;" href="{% url 'logout' %}"><li>Logoff</li></a>
+                    </ul>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <script>
+    const loggedInUserId = "{{ user.get_username }}";
+    document.addEventListener('DOMContentLoaded', function() {
+      const userNameElement = document.getElementById('userName');
+      const fullName = userNameElement.textContent;
+      const firstName = fullName.split(' ')[0];
+      userNameElement.textContent = firstName;
+    });
+
+    document.addEventListener('click', (event) => {
+        const menu = document.getElementById("userMenu");
+        const userImage = document.querySelector('.user-profile');
+        if (menu.style.display === "block" && !menu.contains(event.target) && !userImage.contains(event.target)) {
+          menu.style.display = "none";
+        }
+    });
+    function toggleMenu() {
+      const menu = document.getElementById('userMenu');
+      menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+  }
+  </script>

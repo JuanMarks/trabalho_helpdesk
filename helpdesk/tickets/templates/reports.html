@@ -1,0 +1,197 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'css/admin.css' %}" />
+    <title>Relatórios</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.2/dist/chart.min.js"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+      crossorigin="anonymous"
+    />
+    <link rel="icon" href="https://fenixinternet-rs.com.br/wp-content/uploads/2024/09/Logo-Fenix-Internet-1-1.svg" type="image/x-icon" sizes="32x32">
+  </head>
+  <body>
+    {% include 'navbar.html' %}
+    <script id="tickets-status-data" type="application/json">
+      {{ tickets_status_data|safe }}
+    </script>
+    
+    <script id="tickets-department-data" type="application/json">
+      {{ tickets_department_data|safe }}
+    </script>
+    
+    <div class="container mt-5" style="z-index: 0;">
+      <h2 class="text-center">Relatórios</h2>
+      <!-- Filtros -->
+      <div class="row mt-4">
+        <form method="get">
+          <h5 class="fw-medium">Período</h5>
+          <div class="d-flex">
+            <div class="col-md-5 d-flex">
+              <input
+                type="date"
+                id="start_date"
+                name="start_date"
+                class="form-control"
+                value="{{ request.GET.start_date }}"
+              />
+              <input
+                type="date"
+                id="end_date"
+                name="end_date"
+                class="form-control"
+                value="{{ request.GET.end_date }}"
+              />
+            </div>
+            <div class="d-grid gap-2 d-md-flex mx-2" role="group">
+              <button type="submit" class="btn btn-primary">Filtrar</button>
+              <a href="{% url 'reports' %}" class="btn btn-secondary"
+                >Limpar Filtros</a
+              >
+            </div>
+          </div>
+        </form>
+        <div class="d-flex justify-content-end mt-3"></div>
+      </div>
+      <!-- Cards com Resumo -->
+      <div class="row mt-4 text-center">
+        <div class="col-md-4">
+          <div class="card p-3">
+            <h5>Total de Tickets</h5>
+            <h3 class="text-primary">{{ total_tickets }}</h3>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card p-3">
+            <h5>Média de Resolução</h5>
+            <h3 class="text-success"> {% if avg_resolution_time %} {{ avg_resolution_time|floatformat:2 }} horas {% else %} - {% endif %} </h3>          </div>
+        </div>
+      </div>
+
+      <!-- Gráficos -->
+      <div class="row mt-5">
+        <div class="col-md-6">
+          <h4>Distribuição de Tickets por Status</h4>
+          <canvas id="ticketsByStatusChart"></canvas>
+        </div>
+        <div class="col-md-6" style="width: 25rem">
+          <h4>Tickets por Departamento</h4>
+          <canvas id="ticketsByDepartmentChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Tabela -->
+      <div class="row mt-5">
+        <div class="col-12">
+          <h4>Detalhes dos Tickets</h4>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Protocolo</th>
+                <th>Usuário</th>
+                <th>Departamento</th>
+                <th>Título</th>
+                <th>Status</th>
+                <th>Analista</th>
+                <th>Criado em</th>
+                <th>Fechado em</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for ticket in tables %}
+              <tr>
+                <td>{{ ticket.protocol_instance }}</td>
+                <td>{{ ticket.user }}</td>
+                <td>{{ ticket.department }}</td>
+                <td>{{ ticket.title }}</td>
+                <td>{{ ticket.status }}</td>
+                <td>{{ ticket.name_analyst }}</td>
+                <td>{{ ticket.created_at }}</td>
+                <td>{% if ticket.resolved_at %} {{ ticket.resolved_at }}{% else %} - {% endif %} </td>
+
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          <div class="row mt-4">
+            <nav aria-label="Page navigation example">
+              <ul class="pagination justify-content-center">
+                {% if tables.has_previous %}
+                <li class="page-item">
+                  <a
+                    class="page-link"
+                    href="?page={{ tables.previous_page_number }}{% if request.GET.start_date %}&start_date={{ request.GET.start_date }}{% endif %}{% if request.GET.end_date %}&end_date={{ request.GET.end_date }}{% endif %}"
+                    >Anterior</a
+                  >
+                </li>
+                {% endif %} {% for num in tables.paginator.page_range %}
+                <li
+                  class="page-item {% if tables.number == num %}active{% endif %}"
+                >
+                  <a
+                    class="page-link"
+                    href="?page={{ num }}{% if request.GET.start_date %}&start_date={{ request.GET.start_date }}{% endif %}{% if request.GET.end_date %}&end_date={{ request.GET.end_date }}{% endif %}"
+                    >{{ num }}</a
+                  >
+                </li>
+                {% endfor %} {% if tables.has_next %}
+                <li class="page-item">
+                  <a
+                    class="page-link"
+                    href="?page={{ tables.next_page_number }}{% if request.GET.start_date %}&start_date={{ request.GET.start_date }}{% endif %}{% if request.GET.end_date %}&end_date={{ request.GET.end_date }}{% endif %}"
+                    >Próximo</a
+                  >
+                </li>
+                {% endif %}
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scripts para Gráficos -->
+    <script>
+      // Gráfico de Barras - Tickets por Status
+      var ticketsStatusData = JSON.parse(document.getElementById("tickets-status-data").textContent);
+      var ctx1 = document.getElementById('ticketsByStatusChart').getContext('2d');
+      new Chart(ctx1, {
+        type: 'bar',
+        data: {
+          labels: ticketsStatusData.labels,
+          datasets: [{
+            label: '# de Tickets',
+            data: ticketsStatusData.data,
+            backgroundColor: 'rgba(54, 162, 235, 0.8)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          scales: {
+            y: { beginAtZero: true }
+          }
+        }
+      });
+
+      // Gráfico de Pizza - Tickets por Departamento
+      var ticketsDepartmentData = JSON.parse(document.getElementById("tickets-department-data").textContent);
+      var ctx2 = document.getElementById('ticketsByDepartmentChart').getContext('2d');
+      new Chart(ctx2, {
+        type: 'pie',
+        data: {
+          labels: ticketsDepartmentData.labels,
+          datasets: [{
+            data: ticketsDepartmentData.data,
+            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'],
+          }]
+        },
+      });
+    </script>
+  </body>
+</html>

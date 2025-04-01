@@ -1,0 +1,140 @@
+/* Estilo da navbar */
+.navbar-all {
+    /* background-color: #c1bbbb; */
+    background: rgba(193, 187, 187,0.3);
+    
+}
+
+/* Estilo do link na navbar */
+.navbar-all .link {
+    position: relative;
+    padding-bottom: 5px; 
+    display: inline-block;
+}
+
+/* Linha que aparece e cresce no hover */
+.navbar-all .link::after {
+    content: ''; 
+    position: absolute;
+    bottom: 0; 
+    left: 50%; 
+    width: 0; 
+    height: 2px; 
+    background-color: #e36767; 
+    transition: width 0.3s ease; 
+    transform: translateX(-50%);  
+}
+
+/* A linha cresce quando o link é hovered */
+.navbar-all .link:hover::after {
+    width: 100%;
+}
+
+.div-navbar-button{
+    margin-left: 36%;
+}
+
+@media (max-width: 1400px) {
+  .div-navbar-button{
+    margin-left: 30%;
+  }
+
+  
+}
+@media (min-width: 1500px) and (max-width: 1600px) {
+  .espaco-direita{
+    margin-right: 100px !important;
+  }
+}
+
+.font-nav{
+  font-size: 1.2rem;
+}
+
+
+.header { 
+    margin: 10px;
+    display: flex; /* Usa flexbox para o alinhamento dos itens */
+    align-items: center; /* Alinha verticalmente os itens no centro */
+    justify-content: flex-end; /* Alinha os itens à direita */
+    z-index: 1000; /* Garante que o cabeçalho fique acima de outros elementos */
+
+  }
+  
+  .user-profile {
+    position: relative; /* Permite que o menu seja posicionado em relação a esse elemento */
+    display: flex; /* Exibe os itens (imagem e nome) em linha */
+    align-items: center; /* Alinha verticalmente a imagem e o nome */
+    gap: 10px;
+  }
+
+.user-name-container {
+    display: flex;
+    flex-direction: column; /* Organiza os textos na vertical */
+    line-height: 1; /* Ajusta o espaçamento entre linhas */
+}
+  
+  .user-image {
+    width: 40px; /* Define a largura da imagem */
+    height: 40px; /* Define a altura da imagem */
+    border-radius: 50%; /* Torna a imagem um círculo */
+    overflow: hidden; /* Garante que a imagem não ultrapasse o círculo */
+    margin-right: 5px; /* Espaçamento entre a imagem e o nome */
+    cursor: pointer; /* Adiciona um cursor de mão ao passar sobre a imagem */
+  }
+  
+  .user-image img {
+    width: 100%; /* A imagem ocupa toda a área do contêiner */
+    height: 100%; /* A altura da imagem é ajustada à altura do contêiner */
+    object-fit: cover; /* Ajusta a imagem para cobrir o círculo sem distorção */
+  }
+
+  .analista-name{
+    font-size: 14px;
+    font-weight: bold; /* Destaca o texto */
+    margin-bottom: 2px; /* Controla o espaço entre "Analista" e o username */
+    margin-left: auto;
+  }
+  
+  .user-name {
+    font-size: 15px; /* Define o tamanho da fonte do nome */
+    font-weight: 500; /* Define o peso da fonte para um estilo mais forte */
+    color: #333; /* Define a cor do texto como um tom escuro */
+    cursor: pointer; /* Adiciona um cursor de mão ao passar sobre o nome */
+  }
+  
+  .user-menu {
+    position: absolute;
+    top: 50px; /* Posiciona o menu 50px abaixo da imagem */
+    right: 0; /* Alinha o menu à direita do contêiner */
+    background-color: #fff; /* Define a cor de fundo do menu */
+    border-radius: 5px; /* Adiciona bordas arredondadas ao menu */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Adiciona uma sombra suave ao redor do menu */
+    display: none; /* Inicialmente o menu está oculto */
+    min-width: 150px; /* Define uma largura mínima para o menu */
+  }
+  
+  .user-menu ul {
+    list-style-type: none; /* Remove os pontos de lista do menu */
+    padding: 10px 0; /* Adiciona padding ao redor dos itens */
+    margin: 0; /* Remove a margem padrão */
+  }
+  
+  .user-menu ul li {
+    padding: 8px 15px; /* Adiciona padding aos itens do menu */
+    cursor: pointer; /* Adiciona um cursor de mão ao passar sobre os itens */
+  }
+  
+  .user-menu ul li:hover {
+    background-color: #f1f1f1; /* Adiciona um fundo mais claro quando o item é hover */
+  }
+  
+  .user-menu ul li a {
+    text-decoration: none; /* Remove o sublinhado dos links */
+    color: #333; /* Define a cor do link */
+    font-size: 14px; /* Define o tamanho da fonte dos links */
+  }
+  
+  .user-menu ul li a:hover {
+    color: #ff0000; /* Altera a cor para azul claro ao passar o mouse sobre o link */
+  }

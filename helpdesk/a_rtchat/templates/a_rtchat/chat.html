@@ -1,0 +1,223 @@
+{% load static %}
+{% block content %}
+{% if user.is_staff == False %}
+    <wrapper class="d-block mx-auto w-100 bg-light" style="background-color: #F3F3F3;">
+        <div id="chat_window" class="d-flex flex-column rounded-4 shadow-lg position-relative p-1 chat-wrapper  flex-grow-1">
+            <div id='chat_container' class="overflow-auto flex-grow-1">
+                <ul id='chat_messages' class="d-flex flex-column justify-content-end gap-2 p-4">
+                    {% for message in chat_messages reversed %}
+                    {% if message.author == user %}
+                    <li class="d-flex justify-content-end mb-3">
+                        <div class=" rounded-4 p-3" style="max-width: 75%; background-color: #ff3d3d;color:white; border-radius:8px; ">
+                            {% if message.file %}
+                                <img onclick="enlargeImage('{{ message.file.url }}')" class="chat-image" src="{{ message.file.url }}" alt="{{ message.file.name }}" style="max-width: 85%; max-height: 10rem;">
+                            {% else %}
+                                <span>{{ message.body }}</span>
+                            {% endif %}
+                        </div>
+                        <div class="d-flex align-items-end">
+                            <svg height="13" width="8">
+                                <path fill="#bbf7d0" d="M6.3,10.4C1.5,8.7,0.9,5.5,0,0.2L0,13l5.2,0C7,13,9.6,11.5,6.3,10.4z" />
+                            </svg>
+                        </div>
+                    </li>
+                    {% else %}
+                    <li>
+                        <div class="d-flex justify-content-start">
+                            <div class="d-flex align-items-end me-2">
+                                <a>
+                                        <img class="rounded-circle object-fit-cover" src="{% if message.author.profile.profile_picture %}{{ message.author.profile.profile_picture.url }}{% else %}{% static 'img/placeholder-image.jpg' %}{% endif %}" alt="{{ message.author.username }}" style="width: 2rem; height: 2rem;">
+                                </a>
+                            </div>
+                            <div class="d-flex align-items-end">
+                                <svg height="13" width="8">
+                                    <path fill="white" d="M2.8,13L8,13L8,0.2C7.1,5.5,6.5,8.7,1.7,10.4C-1.6,11.5,1,13,2.8,13z"></path>
+                                </svg>
+                            </div>
+                            <div class="bg-secondary text-light p-3 rounded-4" style="max-width: 75%;  border-radius:8px">
+                                {% if message.file %}
+                                <img onclick="enlargeImage('{{ message.file.url }}')" class="chat-image"s src="{{ message.file.url }}" alt="{{ message.file.name }}" style="max-width: 85%; max-height: 10rem;">
+                                {% else %}
+                                <span>{{ message.body }}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="text-sm fw-light py-1 ms-4">
+                            <span class="text-dark">{{ message.author.username }}</span>
+                        </div>
+                    </li>
+                    {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="sticky-bottom z-1 py-2">
+                <div class="d-flex align-items-center rounded-3 gap-2 ">
+                {% if ticketStatus == 'atendendo'%} 
+                    {% if chatroom_name %}
+                    <form  method="POST" id="chat_message_form" name="pastel" class="h-75 w-100 label-form d-flex gap-2" hx-ext="ws" ws-connect='/ws/chatroom/{{ chatroom_name }}' ws-send>
+                    {% endif %}
+                        {% csrf_token %}
+                        {{ form }}
+                        
+                    </form>
+                    
+                    <form 
+                        style="margin-right: 85px;"
+                        id="chat_file_form" 
+                        enctype="multipart/form-data" 
+                        class="align-items-center w-100 mx-auto" 
+                        hx-post="chat/chat/fileupload/{{ chatroom_name }}"
+                        hx-target="#chat_messages" 
+                        hx-swap="beforeend"
+                        _="on htmx:beforeSend me clearPreview()">
+                        
+                        {% csrf_token %}
+
+                             <!-- Área para mostrar a miniatura da imagem escolhida -->
+                        <div id="imagePreview" style="position: absolute; bottom: 50px;" class="d-none mb-3">
+                            <p id="imageName" class="fw-bold"></p>
+                            <img id="imageThumbnail" src="" alt="Miniatura da imagem" class="img-fluid" style="max-height: 100px; max-width: 100px;">
+                        </div>
+                        <div class="input-group mb-1 gap-2">
+                            <!-- Botão para escolher arquivo com ícone de clip -->
+                            <label for="inputGroupFile02" class="btn btn-outline-secondary">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-paperclip" viewBox="0 0 16 16">
+                                    <path d="M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0z"/>
+                                </svg>
+                            </label>
+                            <input type="file" name="file" class="d-none" id="inputGroupFile02" accept="image/*" onchange="previewImage()">
+                            <button type="submit" class="input-group-text btn btn-primary">
+                                <svg style="rotate: 40deg;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-send-fill" viewBox="0 0 16 16">
+                                    <path d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 3.178 4.995.002.002.26.41a.5.5 0 0 0 .886-.083zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    
+                   
+
+                     
+                    </form>
+                {% endif %}   
+                </div>
+            </div>
+        </div>
+    </wrapper>
+
+
+{% else %}
+    <wrapper class="d-block mx-auto">
+        <div id="chat_window" class="d-flex flex-column rounded-4 shadow-lg chat-wrapper position-relative p-1">
+            <div id='chat_container' class="overflow-auto flex-grow-1">
+                <ul id='chat_messages' class="d-flex flex-column justify-content-end gap-2 p-4">
+                    {% for message in chat_messages reversed %}
+                    {% if message.author == user %}
+                    <li class="d-flex justify-content-end mb-3">
+                        <div class="rounded-4 p-3 text-light" style="max-width: 75%; background-color: #ff3d3d; border-radius:8px">
+                            {% if message.file %}
+                                <img onclick="enlargeImage('{{ message.file.url }}')" class="chat-image" src="{{ message.file.url }}" alt="{{ message.file.name }}" style="max-width: 85%; max-height: 10rem;">
+                            {% else %}
+                                <span>{{ message.body }}</span>
+                            {% endif %}
+                        </div>
+                        <div class="d-flex align-items-end">
+                            <svg height="13" width="8">
+                                <path fill="#bbf7d0" d="M6.3,10.4C1.5,8.7,0.9,5.5,0,0.2L0,13l5.2,0C7,13,9.6,11.5,6.3,10.4z" />
+                            </svg>
+                        </div>
+                    </li>
+                    {% else %}
+                    <li>
+                        
+                        <div class="d-flex justify-content-start">
+                            <div class="d-flex align-items-end me-2">
+                                <a>
+                                        <img class="rounded-circle object-fit-cover" src="{% if message.author.profile.profile_picture %}{{ message.author.profile.profile_picture.url }}{% else %}{% static 'img/placeholder-image.jpg' %}{% endif %}" alt="{{ message.author.username }}" style="width: 2rem; height: 2rem;">
+                                </a>
+                            </div>
+                            <div class="d-flex align-items-end">
+                                <svg height="13" width="8">
+                                    <path fill="white" d="M2.8,13L8,13L8,0.2C7.1,5.5,6.5,8.7,1.7,10.4C-1.6,11.5,1,13,2.8,13z"></path>
+                                </svg>
+                            </div>
+                            <div class="p-3 rounded-4 bg-secondary text-light" style="max-width: 75%; border-radius:8px">
+                                {% if message.file %}
+                                <img onclick="enlargeImage('{{ message.file.url }}')" src="{{ message.file.url }}" alt="{{ message.file.name }}" style="max-width: 85%; max-height: 10rem;" class="chat-image">
+                                {% else %}
+                                <span>{{ message.body }}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="text-sm fw-light py-1 ms-4">
+                            <span id='userName' class="text-dark">{{ message.author.username }}</span>
+                        </div>
+                    </li>
+                    <script>
+                        const loggedInUserId = "{{ message.author.username  }}";
+                        document.addEventListener('DOMContentLoaded', function() {
+                          const userNameElement = document.getElementById('userName');
+                          const fullName = userNameElement.textContent;
+                          const firstName = fullName.split(' ')[0];
+                          userNameElement.textContent = firstName;
+                        });
+                    </script>
+                    {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="sticky-bottom z-1 py-2">
+                <div class="d-flex align-items-center rounded-3 gap-2 ">
+                    
+                    {% if ticketStatus == 'atendendo'%}
+                        {% if chatroom_name %}
+                        <form method="POST" id="chat_message_form" class="w-100 label-form" hx-ext="ws" ws-connect='/ws/chatroom/{{ chatroom_name }}' ws-send>
+                        {% endif %}
+                            {% csrf_token %}
+                            {{ form }}
+                            
+                        </form>
+                        <form 
+                        style="margin-right: 85px;"
+                        id="chat_file_form" 
+                        enctype="multipart/form-data" 
+                        class="align-items-center w-100 mx-auto" 
+                        hx-post="chat/chat/fileupload/{{ chatroom_name }}"
+                        hx-target="#chat_messages" 
+                        hx-swap="beforeend"
+                        _="on htmx:beforeSend me clearPreview()">
+                        
+                        {% csrf_token %}
+
+                             <!-- Área para mostrar a miniatura da imagem escolhida -->
+                        <div id="imagePreview" style="position: absolute; bottom: 50px;" class="d-none mb-3">
+                            <p id="imageName" class="fw-bold"></p>
+                            <img id="imageThumbnail" src="" alt="Miniatura da imagem" class="img-fluid" style="max-height: 100px; max-width: 100px;">
+                        </div>
+                        <div class="input-group mt-4 gap-2">
+                            <!-- Botão para escolher arquivo com ícone de clip -->
+                            <label for="inputGroupFile02" class="btn btn-outline-secondary">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-paperclip" viewBox="0 0 16 16">
+                                    <path d="M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0z"/>
+                                </svg>
+                            </label>
+                            <input type="file" name="file" class="d-none" id="inputGroupFile02" accept="image/*" onchange="previewImage()">
+                            <button type="submit" class="input-group-text btn btn-primary">
+                                <svg style="rotate: 40deg;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-send-fill" viewBox="0 0 16 16">
+                                    <path d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 3.178 4.995.002.002.26.41a.5.5 0 0 0 .886-.083zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    
+                   
+
+                     
+                    </form>
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+    </wrapper>
+
+
+{% endif %}
+{% endblock %}

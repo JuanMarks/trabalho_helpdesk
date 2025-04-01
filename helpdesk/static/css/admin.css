@@ -1,0 +1,839 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #1414ff;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    --color: #E1E1E1;
+    background-color: #F3F3F3;
+    
+    
+
+}
+
+.dropdown-options {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    max-height: 150px;
+    overflow-y: auto;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-top: none;
+    z-index: 1000;
+    display: block; /* Oculto por padrão */
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.dropdown-search {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.dropdown-options li {
+    padding: 8px;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+.dropdown-options li:hover {
+    background-color: #f0f0f0;
+}
+
+
+
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: rgba(211, 208, 208, 0.74);
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    border-radius: 5px;
+  }
+
+  .dropdown-content a {
+    color: black;
+    padding: 10px 15px;
+    text-decoration: none;
+    display: block;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .dropdown-content a:last-child {
+    border-bottom: none;
+  }
+
+  .dropdown-content a:hover {
+    background-color: #f1f1f1;
+  }
+
+  .dropdown:hover .dropdown-content {
+    display: block; /* Mostra o menu ao passar o mouse */
+  }
+
+  .dropdown-menu {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+#searchDropdownInput {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+.navbar-filtros {
+    z-index: 1;
+    position: fixed;
+    top: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    border-radius: 8px;
+    width: 70vw;
+}
+
+/* Botões dentro da navbar */
+
+
+
+
+.navbar-filtros button {
+    width: 7.5em;
+    height: 3.3em;
+    margin: 0.5em;
+    background: rgba(0, 0, 0, 0.438);
+    color: white;
+    border: none;
+    border-radius: 0.625em;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+   }
+   
+   .navbar-filtros button:hover {
+    color: rgb(255, 255, 255);
+   }
+   
+   .navbar-filtros button:after {
+    content: "";
+    background: #ff4d4d;
+    position: absolute;
+    z-index: -1;
+    left: -20%;
+    right: -20%;
+    top: 0;
+    bottom: 0;
+    transform: skewX(-45deg) scale(0, 1);
+    transition: all 0.5s;
+   }
+   
+   .navbar-filtros button:hover:after {
+    transform: skewX(-45deg) scale(1, 1);
+    -webkit-transition: all 0.5s;
+    transition: all 0.5s;
+   }
+
+.new-ticket-btn {
+    background-color: #ffffff;
+    color: #ff3d3d;
+    font-weight: bold;
+    border: 1px solid #ff3d3d;
+    padding: 8px 16px;
+}
+
+/* Seções da Left Container */
+.left-container{
+    position: relative;
+    z-index: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.section {
+    z-index: 0;
+    width: 95vw; /* 50% da largura da viewport */
+    height: 70vh;
+    overflow-y: scroll;
+    display: flex;
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center;
+    position: relative;
+    background: rgba(193, 187, 187,0.3);
+    border-radius: 8px;
+    font-size: 14px;
+    color: #333;
+    margin-top: 5%;
+    ul{
+        padding-left: 0;
+    }
+}
+
+.section::-webkit-scrollbar{
+    display: none;
+}
+
+.section h2 {
+    font-size: 18px;
+    color: #000000;
+    margin: 10px 0px;
+    text-align: center; /* Centraliza o texto dentro do h2 */
+}
+
+.button_div{
+    display: flex;
+    margin-right: 1%;
+    button{
+        margin-right: 5px;
+    }
+}
+
+
+/* Nome e Status do analista */
+.name-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.button_atender:hover {
+    background-color: #218838; /* Cor verde mais escura no hover */
+}
+ 
+
+.button_acessar {
+    
+    position: absolute;
+    right: 30%;
+    padding: 7px 7px; /* Adiciona espaçamento */
+    font-size: 14px; /* Tamanho da fonte */
+    border-radius: 5px; /* Bordas arredondadas */
+    cursor: pointer; /* Aponta cursor como clicável */
+    transition: background-color 0.3s ease; /* Animação suave */
+   
+}
+
+.bi {
+    height: 20px;
+    margin: 0;
+    padding: 0;
+   
+}
+
+.button_fechar:hover {
+    background-color: #c82333; /* Cor vermelha mais escura no hover */
+}
+
+
+    /* Cores dos status */
+    .status-vermelho .container-options-box {
+        border: 2px solid  red;
+    }
+
+    .status-verde .container-options-box{
+       
+        border: 2px solid rgba(0, 255, 0, 0.507);
+    }
+
+    .status-branco .container-options-box{
+        border: 2px solid #747070;
+    }
+
+.name-column h3 {
+    font-size: 14px;
+    color: #000000;
+}
+
+
+.name-column h2 {
+    font-size: 14px;
+    color: #000000;
+}
+
+.container-options-box {
+    z-index: 0;
+    margin: 0px 20px 10px 20px;
+    display: flex;
+    flex-direction: row; /* Alinha os itens em uma linha */
+    justify-content: space-between; /* Distribui os itens com espaço entre eles */
+    align-items: center; /* Centraliza os itens verticalmente */
+    color: rgb(7, 6, 6);
+    padding: 10px;
+    background: rgba(193, 187, 187,0.3);
+    border-radius: 10px;
+    position: relative;
+
+    
+}
+
+
+
+
+.circle-foto {
+    img{
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 10px; /* Adiciona espaço à direita do círculo */
+        align-self: center; /* Centraliza o círculo verticalmente */
+    }
+}
+
+.container-options-box h4 {
+    font-size: 14px;
+    margin-right: 10px; /* Adiciona espaço à direita do título */
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.container-options-box i {
+    font-family: Arial, Helvetica, sans-serif;
+    font-style: normal;
+    margin-right: 10px; /* Adiciona espaço à direita do texto */
+}
+
+.status-container {
+    display: flex;
+    flex-direction: column; /* Alinha os itens em uma coluna */
+    align-items: flex-start; /* Alinha os itens à esquerda */
+    margin-left: auto; /* Empurra a status-container para a direita */
+}
+
+.status-container .status,
+.status-container .admin-name,
+.status-container .name-analista {
+    color: white;
+    font-size: 14px;
+    margin-bottom: 5px; /* Adiciona espaço abaix o de cada item */
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.description{
+    display: none;
+}
+
+.active-class {
+    transition: width 0.3s ease-in-out;
+
+    .container-options-box{
+        height: auto;
+    }
+
+    .circle-options{
+        display: flex;
+        top: 35%;
+        left: 2%;
+        p{
+            font-size: 14px;
+            margin-bottom: 0 !important;
+        }
+    }
+
+    .name-column{
+        margin-bottom: 11%;
+    }
+
+    .info-column{
+        margin-bottom: 12%;
+    }
+
+    .description{
+        display: block;
+        position: absolute;
+        left: 14%;
+        width: 80%;
+        font-size: 16px;
+    }
+
+    .circle-foto{
+        margin-bottom: 12%;
+    }
+
+    .button-v{
+        rotate: 180deg;
+        margin-bottom: 11%;
+    }
+
+    .button_acessar{
+        margin-bottom: 10% !important;
+    }
+
+    .button_div{
+        margin-bottom: 10%;
+        margin-right: 1%;
+    }
+
+}
+
+.button-v{
+    font-weight: bold;
+    font-size: 20px;
+    margin-top: 1%;
+    cursor: pointer;
+}
+
+.circle-options {
+    position: absolute;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    color: rgb(0, 0, 0);
+    margin-left: auto;
+}
+
+.circle-status {
+    width: 40px; 
+    height: 40px;
+    border-radius: 50%;
+}
+
+/* Estilo para a imagem das mensagens */
+.message-image {
+    max-width: 200px;
+    max-height: 150px;
+    object-fit: contain;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+/* Estilo para o preview da imagem antes do envio */
+.image-preview {
+    max-width: 200px;
+    max-height: 150px;
+    object-fit: contain;
+    border-radius: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.left-container {
+    width: 100%; /* Largura padrão */
+    
+}
+
+
+/* Container do bate-papo */
+.ticket-container {
+    position: absolute;
+    right: 0;
+    width: auto;
+    transition: width 0.3s ease-in-out;
+    /* max-width: 600px; */ /* Você pode ajustar esse valor para ter um tamanho máximo */
+    border: 1px solid #dcdcdc;
+    background-color: rgba(48, 45, 45, 0.5);
+    border-radius: 8px;
+    background-color: #fff;
+    height: 60%;
+    margin-top: 16%;
+}
+/* Abas dos tickets */
+.tabs {
+    display: flex;
+    /* overflow-x: auto; */
+    border-bottom: 1px solid #dcdcdc;
+    background-color: #ff5757;
+    gap: 4px;
+    padding: 4px;
+}
+
+/* Botões de navegação do ticket */
+.tab {
+    padding: 5px 8px;
+    cursor: pointer;
+    position: relative;
+    background-color: #ff5757;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    font-size: 12px;
+    border-radius: 4px;
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
+.tab.active {
+    background-color: #ff3d3d;
+}
+.tab .close-btn {
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    cursor: pointer;
+    color: white;
+    font-size: 10px;
+}
+
+/* Conteúdo do ticket */
+.content {
+    background-color: white;
+    padding: 15px;
+    height: 250px;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Seção Informativa do Ticket */
+.ticket-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 8px;
+    border: 1px solid #dcdcdc;
+    border-radius: 5px;
+    background-color: #ffe5e5;
+}
+
+.user-photo {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.ticket-details p {
+    margin: 2px 0;
+    font-size: 12px;
+    color: #333;
+}
+
+/* Área de Mensagens */
+.messages {
+    height: 680px;
+    padding: 10px;
+    overflow-y: auto;
+    position: relative;
+    margin-bottom: -340px;
+    border: 1px solid #dcdcdc;
+    border-radius: 5px;
+}
+
+/* Estilos para as mensagens */
+.message {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    max-width: 80%;
+}
+
+/* Nome do remetente */
+.sender-name {
+    font-weight: bold;
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+}
+
+/* Texto da mensagem */
+.message-text {
+    font-size: 1rem;
+}
+
+.info-column{
+    margin-bottom: 5px;
+}
+
+/* Estilos específicos para o usuário */
+.message.user {
+    background-color: #fcabab; /* Cor de fundo para a mensagem do usuário */
+    align-self: flex-start;
+}
+
+/* Estilos específicos para o administrador */
+.message.admin {
+    background-color: #f8d7da; /* Cor de fundo para a mensagem do administrador */
+    align-self: flex-end;
+}
+
+
+/* Área de Entrada de Mensagem */
+.input-area {
+    position: relative;
+    display: flex;
+    gap: 8px;
+    top: 110%;
+}
+
+#userInput {
+    flex-grow: 1;
+    padding: 8px;
+    border: 1px solid #dcdcdc;
+    border-radius: 5px;
+    font-size: 12px;
+}
+
+button {
+    padding: 8px 15px;
+    background-color: #ff3d3d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+button:hover {
+    background-color: #ff5757;
+}
+
+/* Botão de fechar no bate-papo */
+
+.label-form{
+    label{
+        color: white;
+    }
+}
+/* Estilização do Modal */
+.modal {
+    display: none; /* Escondido por padrão */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+.modal.visible {
+    display: flex;
+  }
+
+.modal-content {
+    background-color: #fefefe;
+    border: 1px solid #888;
+    width: 300px;
+    height: 250px;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    form {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: 5px
+    }
+}
+
+.close {
+    color: #aaa;
+    margin: 10px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: start;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: #c82333;
+}
+
+.button_salvar {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.button_salvar:hover {
+    background-color: #45a049;
+}
+
+@media (max-width: 1950px){
+    .ticket-container{
+        height: 40rem;
+    }
+
+    .chat-wrapper{
+        background-color: #fff;
+        height: 35rem;  
+        border-radius: 8px;  
+        width: 35rem;
+        form{
+            margin-left: 10px;
+            input{
+                width: 400px !important; 
+            }
+        }
+
+        .form-file{
+            margin-top: 15px;
+        }
+    }
+}
+
+@media (max-width: 1700px){
+    .ticket-container{
+        
+        height: 34rem;
+    }
+
+    .chat-wrapper{
+        background-color: #fff;
+        height: 28rem;  
+        border-radius: 8px;  
+        width: 35rem;
+        form{
+            margin-left: 10px;
+            input{
+                width: 400px !important; 
+            }
+        }
+
+        .form-file{
+            margin-top: 15px;
+        }
+    }
+}
+
+@media (max-width: 1550px) {
+
+    .section{
+        width: 95vw; /* 50% da largura da viewport */
+        height: 75vh;
+        margin-left: 0;
+    }
+
+    .description{
+        margin-top: 4%;
+    }
+
+    .content{
+        height: 170px;
+    }
+
+    .ticket-container{
+        height: 29rem;
+    }
+
+    .chat-wrapper{
+        background-color: #fff;
+        height: 22rem;  
+        border-radius: 8px;  
+        width: 35rem;
+        form{
+            margin-left: 10px;
+            input{
+                width: 400px !important; 
+            }
+        }
+
+        .form-file{
+            margin-top: 15px;
+        }
+    }
+
+    
+
+    
+}
+
+@media (max-width: 1400px) {
+
+    .navbar-filtros {
+        top: 12%;
+    }
+
+    .section{
+        width: 95vw; /* 50% da largura da viewport */
+        height: 70vh;
+        margin-top: 6%;
+    }
+
+    .info-column{
+        max-width: 40%;
+    }
+
+    .content{
+        height: 170px;
+    }
+
+    .active-class {
+        transition: width 0.3s ease-in-out;
+
+        .container-options-box{
+            height: auto;
+        }
+
+        .circle-options{
+            display: flex;
+            top: 35%;
+            left: 2%;
+            p{
+                font-size: 12px;
+                margin-bottom: 0 !important;
+            }
+        }
+
+        .name-column{
+            margin-bottom: 10%;
+        }
+    
+        .info-column{
+            margin-bottom: 12%;
+        }
+    
+        .description{
+            display: block;
+            position: absolute;
+            top: 40%;
+            left: 16%;
+            width: 80%;
+        }
+    
+        .circle-foto{
+            margin-bottom: 12%;
+        }
+    
+        .button-v{
+            rotate: 180deg;
+            margin-bottom: 10%;
+        }
+    
+        .button_div{
+            margin-bottom: 9%;
+            margin-right: 1%;
+        }
+
+        .button_acessar{
+            margin-bottom: 11% !important;
+        }
+    
+    }
+
+    
+
+    
+}

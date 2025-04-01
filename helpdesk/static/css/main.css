@@ -1,17 +1,17 @@
 /* From Uiverse.io by Yaya12085 */ 
 body {
   background-color: #f4f4f9;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 
 .form {
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     background-color: #fff;
-    position: absolute;
-    display: block;
     padding: 1rem;
-    left: 40%;
-    top: 20%;
     max-width: 450px;
     border-radius: 0.5rem;
     -webkit-box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
@@ -21,8 +21,7 @@ body {
   #image-logo {
     position: relative;
     width: 120px;
-    margin-left: 47%;
-    bottom: 88%;
+    margin-top: 20vh;
 }
 
   .form-title {
@@ -113,4 +112,10 @@ span {
   
   .signup-link a {
     text-decoration: underline;
+  }
+
+  @media (max-width: 1400px) {
+    #image-logo {
+      margin-top: 5vh;
+    }
   }

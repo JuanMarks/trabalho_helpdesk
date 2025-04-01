@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ message_title }}</title>
+    {% load static %}
+    <style>
+      .container {
+        background-color: rgba(255, 255, 255, 0.9);
+        padding: 20px;
+        border-radius: 8px;
+        max-width: 600px;
+        margin: auto;
+      }
+      .logo {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      .logo img {
+        max-width: 50px;
+      }
+      .content {
+        text-align: center;
+      }
+      .content h1 {
+        color: #ff6c02;
+      }
+      .content p {
+        font-size: 16px;
+      }
+    </style>
+  </head>
+  <body
+    style="
+      background-image: url('https://fenix-fiber.com.br/wp-content/uploads/2020/04/logo-fenix.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-color: rgba(255, 255, 255, 0.8);
+    "
+  >
+    <div class="container">
+      <div class="logo">
+        <img
+          src="https://fenix-fiber.com.br/wp-content/uploads/2020/04/logo-fenix.png"
+          alt="Fenix Internet Logo"
+        />
+      </div>
+      <div class="content">
+        <h1>{{ message_title }}</h1>
+        <p>Olá {{ user_name }},</p>
+        <p>{{ message_body }}</p>
+      </div>
+    </div>
+  </body>
+</html>

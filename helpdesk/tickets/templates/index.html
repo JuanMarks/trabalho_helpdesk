@@ -1,5 +1,4 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -7,76 +6,204 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tickets NOC</title>
 
-    <link rel="stylesheet"  href="{% static 'css/styles.css' %}">
-    <link rel="stylesheet"  media="screen and (max-width: 1600px)" href="{% static 'css/responsive.css' %}">
-</head>
-<body>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+      crossorigin="anonymous"
+    />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-pzjw8f+ua7Kw1TIq0KY9F4A4s5KMUFEpz+fOxtFsOVU7XjPTjOjLxRFD0bXfAhZG" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/modal.css' %}">
 
-    <div class="header">
-        <div class="user-profile">
-          <div class="user-image" onclick="toggleMenu()">
-            <img src="https://via.placeholder.com/40" alt="Imagem do colaborador">
+    <link rel="icon" href="https://fenixinternet-rs.com.br/wp-content/uploads/2024/09/Logo-Fenix-Internet-1-1.svg" type="image/x-icon" sizes="32x32">
+    <script src="https://unpkg.com/htmx.org/dist/htmx.js"></script>
+    <script src="https://unpkg.com/htmx.org/dist/ext/ws.js"></script>
+    <script src="https://unpkg.com/hyperscript.org@0.9.13"></script>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+
+    {% if user.is_staff == True%}
+      <link rel="stylesheet"  href="{% static 'css/admin.css' %}">
+    {% else %}
+      <link rel="stylesheet"  href="{% static 'css/stylesalt.css' %}">
+    {% endif %}
+    
+    {% comment %} <link rel="stylesheet"  media="screen and (max-width: 1600px)" href="{% static 'css/responsive.css' %}"> {% endcomment %}
+</head>
+<body>   
+    {% if messages %} 
+      <div class="container mt-3" style="position: absolute; z-index: 2; top: 0;">
+          {% for message in messages %}
+              <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                  {{ message }}
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+          {% endfor %}
+      </div>
+    {% endif %}
+    {% if user.is_staff == True %}
+    {% include 'navbar.html' %}
+      <div class="navbar-filtros">
+        
+        <!-- Dropdown para filtros -->
+        <div class="dropdown">
+            <button class="text-center text-capitalize button-filtros">Filtros</button>
+            <div class="dropdown-content">
+                <input 
+                type="text" 
+                class="dropdown-search" 
+                id="searchDropdownInput" 
+                placeholder="Ex:Joâo ou Protocolo"
+                oninput="filterOptions()">
+                
+                <ul class="dropdown-options" id="userDropdown">
+                    <li onclick="filterByUser('all', 'all')" id="protocolDropdown" value="all"></li>
+                <ul>
+            </div>
+        </div>
+        <button class="text-center text-capitalize"  onclick="showSection(1)">Todos</button>
+        <button class="text-center text-capitalize py-1"  onclick="showSection(2)">Em Atendimento</button>
+        <button class="text-center text-capitalize"  onclick="showSection(3)">Abertos</button>
+        <button class="text-center text-capitalize"  onclick="showSection(4)">Encerrados</button>
+    </div>
+    {% else %}
+    <div class="navbar-logo">
+      <img class='image-logo' id="image-logo" src="{% static 'img/Fenix-Internet-Logo.png' %}" alt="">
+         <div class="header">
+      <div class="user-profile">
+        <div class="user-image" onclick="toggleMenu()">
+          {% if user.profile.profile_picture %}
+          <img src="{{ user.profile.profile_picture.url }}" alt="Imagem do colaborador">
+          {% else %}
+          <img src="{% static 'img/placeholder-image.jpg' %}" alt="Imagem do colaborador">
+          {% endif %}
+        </div>
+          <span class="user-name" id="userName">{{ user.get_username }}</span>
+        
+        <div class="user-menu" id="userMenu">
+          <ul >
+            <a style="text-decoration: none;" href="/edit_profile"><li>Configurações</li></a>
+            <a style="text-decoration: none;" href="{% url 'logout' %}"><li>Logoff</li></a>
+          </ul>
+        </div>
+      </div>
+    </div>
+    </div>
+ 
+    {% endif %}
+
+  <div class="left-container ">
+    <div  class="section "  id="section1" style="display: block";>
+        <h2>Todos os Tickets</h2>
+        <ul id="ticketListAll"></ul>
+    </div>
+    <div class="section" id="section2" style="display: none; ">
+        <h2>Tickets em Atendimento</h2>
+        <ul id="ticketListOngo"></ul>
+    </div>
+    <div class="section" id="section3" style="display: none; ">
+        <h2>Tickets Abertos</h2>
+        <ul id="ticketListOpen"></ul>
+    </div>
+    <div class="section" id="section4" style="display: none; ">
+      <h2>Tickets Encerrados</h2>
+      <ul id="ticketListClosed"></ul>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div id="modalAssignAnalyst" class="modal hidden" >
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <form id="assignAnalystForm" method="POST">
+          <label>Escolha um analista:</label>
+            <select style="padding: 10px;" name='analista' id="selectAnalyst">
+                <option class='capitalize' value="">------------</option>
+            </select>
+            <button class="button_salvar" type='submit'>Salvar</button>
+        </form>
+    </div>
+  </div>
+
+    <div class="ticket-container flex-grow-1" style="display: none;">
+        <!-- {% include 'a_rtchat/chat.html' %} -->
+    </div> 
+
+    {% if user.is_staff == False %}
+    <div class="navbar-filtros">
+      <button type="button" class="text-center text-black text-capitalize" onclick="showSection(1)">Todos</button>
+      <button type="button" class="text-center text-capitalize"   onclick="showSection(3)">Abertos</button>
+      <button type="button"class="text-center text-capitalize py-1"  onclick="showSection(2)">Atendimento</button>
+      <button type="button" class="text-center text-capitalize" onclick="showSection(4)">Encerrados</button>
+      <a style="text-decoration: none;" href="{% url 'openticket' %}"><button type="button" class="text-capitalize" onclick=" createNewTicket();" window.location.href= "{% url 'openticket' %}" >Novo Ticket </button></a>
+      <a style="text-decoration: none;" href="/faq_list"><button type="button" class="text-capitalize text-center py-1" >Perguntas Frequentes</button></a>
+    </div>
+    <div
+      class="modal fade"
+      id="ticketModal"
+      tabindex="-1"
+      aria-labelledby="ticketModalLabel"
+      aria-hidden="true"
+      style="z-index: 1055;"
+    >
+      <div class="modal-dialog modal-lg w-100">
+        <div class="modal-content w-100 h-75">
+          <div class="modal-header">
+            <h5 class="modal-title" id="ticketModalLabel">Detalhes do Ticket</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+              onclick="close_modal()"
+            ></button>
           </div>
-            <span class="user-name">{{ user.get_username }}</span>
-          <div class="user-menu" id="userMenu">
-            <ul>
-              <li><a href="#">Configurações</a></li>
-              <li><a href="{% url 'login' %}">Logoff</a></li>
-            </ul>
+          <div class="modal-body modal-personalizado" id="ticketDetails">
+            <!-- Detalhes do ticket serão carregados dinamicamente aqui -->
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+              onclick="close_modal()"
+            >
+              Fechar
+            </button>
           </div>
         </div>
       </div>
-      
-
-  <div class="left-container">
-    <div style="display: none;" class="section" id="section1">
-        <h2>Tickets em Aberto</h2>
-        <ul id="ticketList"></ul>
-    </div>
-    <div class="section" id="section2" style="display: none;">Conteúdo da Seção 2</div>
-    <div class="section" id="section3" style="display: none;">Conteúdo da Seção 3</div>
-    <div class="section" id="section4" style="display: none;">Conteúdo da Seção 4</div>
-</div>
-
-
-    <div class="ticket-container">
-        <div class="tabs">
-            <!-- Abas dos tickets -->
-        </div>
-        <div class="content">
-            <!-- Informações e chat do ticket -->
-            <div class="ticket-info">
-                <img src="https://images.pexels.com/photos/736716/pexels-photo-736716.jpeg?w=940&h=650&auto=compress&cs=tinysrgb" alt="Foto do Usuário" class="user-photo">
-                <div class="ticket-details">
-                    <p><strong>Usuário:</strong> João da Silva</p>
-                    <p><strong>Protocolo:</strong> #12345</p>
-                    <p><strong>Motivo:</strong> Dúvida sobre faturamento</p>
-                </div>
-            </div>
-            <div class="messages" id="messages"></div>
-            <div class="input-area">
-                <input type="text" id="userInput" placeholder="Digite sua mensagem...">
-                
-                <!-- Campo de seleção de arquivo escondido -->
-                <input type="file" id="fileInput" style="display: none;" onchange="handleFileSelection()">
-                
-                <!-- Botão para simular o clique no campo de arquivo -->
-                <button onclick="document.getElementById('fileInput').click()"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16"><path fill="currentColor" d="M8 1v3.5A1.5 1.5 0 0 0 9.5 6H13v7.5a1.5 1.5 0 0 1-1.5 1.5h-7A1.5 1.5 0 0 1 3 13.5v-11A1.5 1.5 0 0 1 4.5 1zm1 .25V4.5a.5.5 0 0 0 .5.5h3.25z"/></svg></button>
-                
-                <!-- Botão de envio da mensagem -->
-                <button onclick="sendMessage()">Enviar</button>
-              </div>
-        </div>
     </div>
 
-    <div class="navbar">
-        <button onclick="showSection(1)">Tickets<br>Abertos</button>
-        <button onclick="showSection(2)">Tickets<br>Encerrados</button>
-        <button  class="new-ticket-btn" onclick=" createNewTicket();" window.location.href= "{% url 'openticket' %}" >Novo Ticket</button>
-        <button onclick="showSection(3)">Perguntas<br>frequentes</button>
-        <button onclick="showSection(4)">Relatórios</button>
-    </div>
+    {% endif %}
 
+    {% if user.is_staff == True %}
+    <script src="{% static 'js/script_admin.js' %}"></script>
+    {% else %}
     <script src="{% static 'js/script.js' %}"></script>
+    <script>
+      const loggedInUserId = "{{ user.get_username }}";
+      document.addEventListener('DOMContentLoaded', function() {
+        const userNameElement = document.getElementById('userName');
+        const fullName = userNameElement.textContent;
+        const firstName = fullName.split(' ')[0];
+        userNameElement.textContent = firstName;
+      });
+
+      document.addEventListener('click', (event) => {
+        const menu = document.getElementById("userMenu");
+        const userImage = document.querySelector('.user-profile');
+        if (menu.style.display === "block" && !menu.contains(event.target) && !userImage.contains(event.target)) {
+          menu.style.display = "none";
+        }
+      });
+
+    </script>
+    {% endif %}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
